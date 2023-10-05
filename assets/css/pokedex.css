@@ -106,6 +106,15 @@
     justify-content: space-between;
 }
 
+.pokemon .preview
+{
+    height: 25px;
+    border-radius: 15px;
+    width: 40%;
+    background-color: #faebd7;
+    cursor: pointer;
+}
+
 .pokemon .detail .types {
     padding: 0;
     margin: 0;
