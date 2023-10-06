@@ -15,12 +15,28 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
 
     pokemon.photo = pokeDetail.sprites.other.dream_world.front_default
 
+    //pokemon.sprite1 = pokeDetail.sprites.front_default
+    //pokemon.sprite2 = pokeDetail.sprites.front_shiny
+    
+    console.log(pokeDetail.sprites.other);
+
+    pokemon.sprite1 = pokeDetail.sprites.other.home.front_default
+    pokemon.sprite2 = pokeDetail.sprites.other.home.front_shiny
+    
+    pokemon.url = pokeDetail.pokeDetail
+
+
+
     return pokemon
 }
 
 pokeApi.getPokemonDetail = (pokemon) => {
     return fetch(pokemon.url)
-        .then(function(response) {console.log('Obtendo detalhes do pokemon'); return  response.json()})
+        .then(function(response)
+        {
+            console.log('Obtendo detalhes do pokemon'); 
+            return  response.json()
+        })
         .then(convertPokeApiDetailToPokemon)
 }
 
