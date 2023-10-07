@@ -10,21 +10,29 @@ function convertPokemonToLi(pokemon) {
 
 
     return `
-        <li class="pokemon ${pokemon.type}">
-            <span class="number">#${pokemon.number}</span>
-            <span class="name">${pokemon.name}</span>
+        <li class="pokemon">
+          
+            <div class="pokemon-box ${pokemon.type}">
 
             <div class="detail">
-                <ol class="types">
+                <!--<ol class="types">
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
-                </ol>
+                </ol>-->
 
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                <a class="preview">
+                    <img src="${pokemon.photo}" id="${pokemon.number}" alt="${pokemon.name}">
+                </a>
+                <!--<button value="${pokemon.number}" type="button">
+                     Preview
+                </button>-->
             </div>
-            <button value="${pokemon.number}" class="preview" type="button">
-                Preview
-            </button>
+           
+            </div>
+            <div class="etiqueta">
+                <span class="number font-${pokemon.type}">#${pokemon.number}</span>
+                <span class="name font-${pokemon.type}">${pokemon.name}</span>
+            </div>
+
         </li>
     `
 }
@@ -47,34 +55,27 @@ function registerHoverEvent(buttons)
 {
     for(let i = 0;i<buttons.length;i++)
     {
-        console.log('ok');
-        buttons[i].addEventListener('mouseenter',
+        buttons[i].addEventListener('mouseover',
         (e) => 
             {
             
-                if(e.target.value!=null){
-                    let poke_url = "https://pokeapi.co/api/v2/pokemon/" +e.target.value;  
+                if(e.target.id!=null){
+                    let poke_url = "https://pokeapi.co/api/v2/pokemon/" +e.target.id;  
                     fetch(poke_url)
                     .then(function(detalhe)
                     {
                             return detalhe.json();
-                            console.log(detalhe.json())
                     }
                     )
                     .then(function(detalhe_expand)
                     {
-                        console.log(detalhe_expand.sprites)
                         let img1 =  detalhe_expand.sprites.other['official-artwork'].front_default;
                         let img2 =  detalhe_expand.sprites.other['official-artwork'].front_shiny;
 
                         document.getElementById('image1').src = img1;
                         document.getElementById('image2').src = img2;
-
-                        console.log(img1);
-                        console.log(img2);
-
-                        
-
+                        document.getElementById('box-preview-name').innerHTML = detalhe_expand.name
+  
                     })
                 }  
                
@@ -108,27 +109,16 @@ loadMoreButton.addEventListener('click', () => {
     }
 })
 
-
-
-
 function girarImagem() {
-
-    setTimeout(function() {
-
-        
-    if(document.getElementById('image1').style.display === 'flex'){
-        document.getElementById('image1').style.display = 'none';
-        document.getElementById('image2').style.display = 'flex'
-    }else{
-        document.getElementById('image1').style.display = 'flex'
-        document.getElementById('image2').style.display = 'none'
-    }
-    
-    
-  
-
+    setTimeout(function() {    
+        if(document.getElementById('image1').style.display === 'flex'){
+            document.getElementById('image1').style.display = 'none';
+            document.getElementById('image2').style.display = 'flex'
+        }else{
+            document.getElementById('image1').style.display = 'flex'
+            document.getElementById('image2').style.display = 'none'
+        }
       girarImagem();
-
     }, 300);
 }
 

@@ -2,7 +2,6 @@
 const pokeApi = {}
 
 function convertPokeApiDetailToPokemon(pokeDetail) {
-    console.log('Criando instancia do pokemon...');
     const pokemon = new Pokemon()
     pokemon.number = pokeDetail.id
     pokemon.name = pokeDetail.name
@@ -18,11 +17,7 @@ function convertPokeApiDetailToPokemon(pokeDetail) {
     //pokemon.sprite1 = pokeDetail.sprites.front_default
     //pokemon.sprite2 = pokeDetail.sprites.front_shiny
     
-    console.log(pokeDetail.sprites.other);
 
-    pokemon.sprite1 = pokeDetail.sprites.other.home.front_default
-    pokemon.sprite2 = pokeDetail.sprites.other.home.front_shiny
-    
     pokemon.url = pokeDetail.pokeDetail
 
 
@@ -34,7 +29,6 @@ pokeApi.getPokemonDetail = (pokemon) => {
     return fetch(pokemon.url)
         .then(function(response)
         {
-            console.log('Obtendo detalhes do pokemon'); 
             return  response.json()
         })
         .then(convertPokeApiDetailToPokemon)
@@ -42,7 +36,6 @@ pokeApi.getPokemonDetail = (pokemon) => {
 
 function lidar(aObj)
 {
-    console.log('first call');
     return aObj.json()
 }
 
@@ -54,11 +47,9 @@ pokeApi.getPokemons = (offset = 0, limit = 5) => {
         .then(
             (response) =>
             {
-                    console.log('Faendo chamado à API...');
-                    console.log('call 1'); 
+                 
                     
                     let resultado = response.json();
-                    console.log(resultado);
                     return resultado
 
 
@@ -66,25 +57,21 @@ pokeApi.getPokemons = (offset = 0, limit = 5) => {
         .then(
             (jsonBody) =>
             {
-                console.log('call 2'); 
                 return jsonBody.results
             })
         .then(
             (pokemons)  =>
             {
-                console.log('call 3');
                 return  pokemons.map(pokeApi.getPokemonDetail)
             })
         .then(
             (detailRequests)  =>
             {
-                console.log('call 4');
                 return Promise.all(detailRequests)
             })
         .then(
             (pokemonsDetails)  =>
             {
-                console.log('call 5');
                 return  pokemonsDetails
             })
         //.then((jsonBody) => jsonBody.results)
